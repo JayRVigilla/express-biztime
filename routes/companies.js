@@ -2,18 +2,17 @@
 // response with JSON
 
 const express = require("express");
-const router = new express.Router();
 const ExpressError = require("../expressError")
 const db = require("../db")
+
+let router = new express.Router();
 
 // at localhost:3000/companies
 router.get("/", async function (req, res, next) {
     try {
-        console.log("route found");
         const results = await db.query(
             'SELECT code, name FROM companies;'
         )
-        console.log(results);
         return res.json(results.rows);
     }
     catch{
@@ -39,7 +38,6 @@ router.get("/:code", async function (req, res, next) {
 
 router.post("/", async function (req, res, next){
     try{
-        console.log(req.body);
         const result = await db.query(
             `INSERT INTO companies (code, name, description) 
                VALUES ($1, $2, $3) 
